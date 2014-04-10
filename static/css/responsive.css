@@ -1,15 +1,6 @@
 div.one-third{
 	width:47.5%;
 }
-div.one-third-second{
-	margin:0;
-}
-div.one-third-last{
-	clear:both;
-	float:none;
-	width:auto;
-	padding:20px 0 0 0;
-}
 
 div.nav ul li{
 	width:25%;
@@ -25,6 +16,9 @@ div.nav ul li{
 	.header-right{
 	  width:100%;
 	}
+	.site-title{
+        height:30px
+  }
 }
 @media screen and (max-width: 500px){
 	div.nav ul li {
