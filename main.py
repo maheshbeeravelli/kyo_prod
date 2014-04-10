@@ -1,4 +1,5 @@
 import webapp2
+import logging
 import os
 import datetime
 import json
@@ -18,6 +19,24 @@ path = os.path.join(os.path.dirname(__file__), 'index.html')
 admin_template = os.path.join(os.path.dirname(__file__), 'admin.html')
 
 class MainHandler(webapp2.RequestHandler):
+  def get(self):
+    order_by = self.request.get('order')
+    stores = datamodel.Stores.all()
+    stores.order('-deals_count')
+    offers = datamodel.Offers.all()
+    # offers.filter('expiry >=',datetime.date.today())
+    
+    if order_by=="popular":
+      offers.order("-clicks")
+    else:
+      offers.order('-posted_on')
+    # offers.fetch(20)
+    template_values = {
+        'name': "Mahesh",'offers':offers,'stores':stores
+      }
+    self.response.out.write(template.render(path, template_values))
+    
+class SearchHandler(webapp2.RequestHandler):
   def get(self):
     try:
       query = str(self.request.get('q')).lower()
@@ -44,34 +63,29 @@ class MainHandler(webapp2.RequestHandler):
               where_clause = where_clause + "and store='{0}'".format(store.store)
             else:
               where_clause = "WHERE store='{0}'".format(store.store)
-#        self.response.write("q after filter:" + query)
-#      query_list = [str(i) for i in query.split()] 
-#      self.response.write(query_list)
       query_build= "SELECT * FROM Offers {0}".format(where_clause)
-#      self.response.write("  query_build is :" + query_build)
       offers = db.GqlQuery(query_build)
-#      offers.order("-posted_on")
+      offers_list = []
+      for offer in offers:
+        offers_list.append(offer)
+      # sorted(offers_list,key=lambda k: k['posted_on'])
+      self.response.write(offers_list[0])
+      offers = offers_list
       data_query =[]
       if(query):
         query = ' '.join(query.split())
-#        for key in query.split(): 
-#          self.response.write("Type of query_list is:")
-#          self.response.write(key)
         for row in offers:
             if query in row.title.lower():
               data_query.append(row)
-              self.response.write(data_query)
-              self.response.write(" found a row")
-              self.response.write(row.title)
               offers = data_query
             elif query in row.description.lower():
               data_query.append(row)
               offers = data_query
       today = datetime.date.today()
-      
+      offers_desc = "All available offers for your query"
       # stores.append(db_stores)  # offers_list = [] # for offer in offers: #   offers_list.append(datetime.datetime.now() - offer.posted_on) # offers[offers.key].
       template_values = {
-        'name': "Mahesh",'offers':offers,'stores':stores,'today':today
+        'name': "Mahesh",'offers_desc':offers_desc,'offers':offers,'stores':stores,'today':today
       }# removed text: ,'offers_list':offers_list
       self.response.out.write(template.render(path, template_values))
     except Exception as exc:
@@ -79,6 +93,10 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(exc)
         self.response.write("    Error at Line number:   ")
         self.response.write(sys.exc_traceback.tb_lineno)
+        logging.error('There was an error in main form for query:'+self.request.get('q'))
+        logging.error(exc)
+        logging.error("At line number")
+        logging.error(sys.exc_traceback.tb_lineno)
         
 class Signin(webapp2.RequestHandler):
     def get(self):
@@ -155,10 +173,15 @@ class Contactus(webapp2.RequestHandler):
             self.response.write("Thank you for you contacting us.");
         except Exception, e:
             self.response.write(e)
+            logging.error('There was an error in contact us:')
+            logging.error(e)
+            logging.error("At line number")
+            logging.error(sys.exc_traceback.tb_lineno)
+
             # self.redirect("/")
 
             
 
 app = webapp2.WSGIApplication([
-  ('/', MainHandler),('/signin',Signin),('/contactus',Contactus),('/upload_photo', PhotoUploadHandler),('/view_photo/([^/]+)?',PhotoServeHandler)
+  ('/', MainHandler),('/search', SearchHandler),('/signin',Signin),('/contactus',Contactus),('/upload_photo', PhotoUploadHandler),('/view_photo/([^/]+)?',PhotoServeHandler)
 ], debug=True)

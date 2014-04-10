@@ -1,0 +1,7 @@
+indexes:
+
+- kind: Offers
+  ancestor: no
+  properties:
+  - name: posted_on
+    direction: desc

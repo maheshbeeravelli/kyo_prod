@@ -15,16 +15,13 @@
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
- 
 	<script src="static/js/main.js"></script>
 	<!-- css -->
 	<!--<link rel="stylesheet" href="static/css/bootstrap.css">-->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	
 	<link rel="stylesheet" href="static/css/main.css">
 	<link rel="stylesheet" href="static/css/responsive.css" media="screen and (max-width: 900px)">
 	<link rel="stylesheet" href="static/css/mhsstyles.css">
-	
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top visible-xs" role="navigation">
@@ -41,12 +38,12 @@
         <div style="height: 1px;" class="navbar-collapse collapse">
           <ul class="nav navbar-nav" id="mobile-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Top Offers</a></li>
-            <li><a href="#contact">Latest Offers</a></li>
+            <li><a href="/?order=popular">Top Offers</a></li>
+            <!--<li><a href="#contact">Latest Offers</a></li>-->
             <li><a href="#contact">Stores</a></li>
-            <li><a href="#contact">Categories</a></li>
+            <!--<li><a href="#contact">Categories</a></li>-->
             <li><a><span class="contactus" style="cursor:pointer">Contact Us</span></a></li>
-            <form class="navbar-form navbar-right" action="/" method="get" role="form">
+            <form class="navbar-form navbar-right" action="/search" method="get" role="form">
               <div class="input-group">
                   <input class="form-control" id="mobile-search" name="q" placeholder="Search for stores ( amazon,flipkart,snapdeal,eBay etc..) and products( mobiles,laptops etc..)" type="text">
                   <span class="input-group-btn">
@@ -62,9 +59,9 @@
 	<div class="body-wrap">
 	<div class="container">
 	  <div class="row">
-    		<div class="col-md-4 site-title"><h1 style="visibility: hidden;"><a href="/">Know Your Offers</a></h1></div>
+    		<div class="col-md-4 site-title"><a href="/"><h1 style="visibility: hidden;">Know Your Offers</h1></a></div>
     		<div class="col-md-8 search-div hidden-xs" style="margin-top: 4px; margin-bottom: 4px;">
-      		<form class="form-search" action="/" method="get">
+      		<form class="form-search" action="/search" method="get">
                 <div class="input-group hidden-xs">
                     <input class="form-control " name="q" placeholder="Search for stores ( amazon,flipkart,snapdeal,eBay etc..) and products( mobiles,laptops etc..)" type="text">
                     <span class="input-group-btn">
@@ -82,10 +79,10 @@
 	    <div class="row">
     		<ul class="">
     			<li class="col-sm-2 nopadding"><a href="/">Home</a></li>
-    			<li class="col-sm-2 nopadding"><a href="#">Top Offers</a></li>
-    			<li class="col-sm-2 nopadding"><a href="#">Categories</a></li>
+    			<li class="col-sm-2 nopadding"><a href="/?order=popular">Top Offers</a></li>
+    			<!--<li class="col-sm-2 nopadding"><a href="#">Categories</a></li>-->
     			<li class="col-sm-2 nopadding"><a href="#">Stores</a></li>
-    			<li class="col-sm-2 nopadding"><a href="#">Latest Offers</a></li>
+    			<!--<li class="col-sm-2 nopadding"><a href="#">Latest Offers</a></li>-->
     			<li class="col-sm-2 nopadding"><a> <span class="contactus" style="cursor:pointer">Contact Us</span></a></li>
     		</ul>
   		</div>

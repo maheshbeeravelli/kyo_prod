@@ -3,7 +3,7 @@ import os
 import datetime
 import json
 import urllib
-
+import sys
 #Custom imports
 import datamodel
 
@@ -40,22 +40,31 @@ class StorePage(webapp2.RequestHandler):
         else:
           user_logged = "Guest"
         store = self.request.get("store")
-        offers = db.GqlQuery("SELECT * FROM Offers where store=:1",store)
+        type  = self.request.get("type")
+        offers =  datamodel.Offers.all()   #db.Query("SELECT * FROM Offers where store=:1",store)
+        offers.filter('store=',store)
+        # offers.order('-posted_on')
+        for offer in offers:
+          self.response.write(offer.store)
+        if type=="deals":
+          offers.filter('offer_type=','Deal')
+        if type=="coupons":
+          offers.filter('offer_type=','Coupon')
         stores = db.GqlQuery("SELECT * FROM Stores")
         for me in stores:
           if me.store==store:
             me.clicks = me.clicks+1
             me.put()
         # today =  datetime.date.today()
-      
+        offers_desc = "All available offers from {0}".format(store)
         template_values = {
-          'name': user_logged,'offers':offers,'stores':stores
+          'name': user_logged,'offers_desc':offers_desc,'offers':offers,'stores':stores
         } # Removed ,'today':today,'offers_list':offers_list
         self.response.out.write(template.render(path, template_values))
       except Exception as exc:
         self.response.write("Exception:")
         self.response.write(exc)
-
+        self.response.write(sys.exc_traceback.tb_lineno)
 
 app = webapp2.WSGIApplication([
   ('/offer',OfferPage), ('/store',StorePage)
