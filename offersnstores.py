@@ -41,15 +41,9 @@ class StorePage(webapp2.RequestHandler):
           user_logged = "Guest"
         store = self.request.get("store")
         type  = self.request.get("type")
-        offers =  datamodel.Offers.all()   #db.Query("SELECT * FROM Offers where store=:1",store)
-        offers.filter('store=',store)
+        offers =  db.GqlQuery("SELECT * FROM Offers where store=:1 order by posted_on desc",store) #datamodel.Offers.all()   
+        # offers.filter('store=',store)
         # offers.order('-posted_on')
-        for offer in offers:
-          self.response.write(offer.store)
-        if type=="deals":
-          offers.filter('offer_type=','Deal')
-        if type=="coupons":
-          offers.filter('offer_type=','Coupon')
         stores = db.GqlQuery("SELECT * FROM Stores")
         for me in stores:
           if me.store==store:

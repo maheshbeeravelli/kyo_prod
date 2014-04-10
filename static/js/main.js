@@ -20,8 +20,27 @@ $(document).ready(function(){
         });
      
    });
+   
+   $(".adc label").click(function(){
+     if($(this).text().indexOf("All")>0)
+     {
+       $(".item").show();
+     }
+     else if ($(this).text().indexOf("Deal")>0){
+       $(".item").hide();
+       $('.item[data-offer-type="Deal"]').show();
+     }
+     else if ($(this).text().indexOf("Coupon")>0){
+       $(".item").hide();
+       $('.item[data-offer-type="Coupon"]').show();
+     }
+    });
 
 //DataManipulaters
+  $("#all_count").text($(".item").length);
+  $("#deals_count").text($('.item[data-offer-type="Deal"]').length);
+  $("#coupons_count").text($('.item[data-offer-type="Coupon"]').length);
+  
   $(".posted_on" ).each(function( index ) {
       // console.log( index + ": " + $( this ).text() );
       var date=$(this).text();

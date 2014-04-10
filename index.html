@@ -94,9 +94,30 @@
 	<div class="container">
 		<!-- thirds -->
 		<div class="row">
+		  <div class="col-md-8 adc" style="padding-bottom:10px">
+    		
+      </div>
+		</div>
+		
+		<div class="row">
 			<div class="col-md-8"><!-- Offers Body -->
+      <div class="row">
+		  <div class="col-md-12 adc" style="padding-bottom:10px">
+    		<div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default active">
+                <input type="radio" name="options" id="show_all"> All <span id="all_count"></span>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="options" id="show_deals"> Deals <span id="deals_count"></span>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="options" id="show_coupons"> Coupons <span id="coupons_count"></span>
+              </label>
+        </div>
+      </div>
+		</div>
 			{% for offer in offers %}
-  			<div class="item col-md-6">
+  			<div class="item col-md-6" data-offer-type="{{offer.offer_type}}">
   			   <div class="item-inner">
     			   <div class="item-header">
     			   {%for store in stores%}

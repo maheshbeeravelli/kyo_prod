@@ -1,7 +1,7 @@
 indexes:
 
 - kind: Offers
-  ancestor: no
   properties:
+  - name: store
   - name: posted_on
     direction: desc
