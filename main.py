@@ -30,7 +30,7 @@ class MainHandler(webapp2.RequestHandler):
       offers.order("-clicks")
     else:
       offers.order('-posted_on')
-    # offers.fetch(20)
+    offers.fetch(20)
     template_values = {
         'name': "Mahesh",'offers':offers,'stores':stores
       }
