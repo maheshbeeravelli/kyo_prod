@@ -16,7 +16,7 @@ $(document).ready(function(){
             window.open(link, '_blank');
     //        coupon = (data.coupon_code=="") ?  "NO CODE": data.coupon_code;
             },
-             async: false
+            async: false
         });
      
    });

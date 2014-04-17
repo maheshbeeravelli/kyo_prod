@@ -55,7 +55,7 @@ class Admin(webapp2.RequestHandler):
                         if e.user_type=="Admin":
                           database =self.request.get("database")
                           if database=="offer":
-                            store        =   self.request.get('store')
+                            store        =   self.request.get('offer_store')
                             title        =   self.request.get('title')
                             offer_position=  self.request.get('offer_kind')
                             offer_type   =   self.request.get('offer_type')

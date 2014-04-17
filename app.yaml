@@ -1,10 +1,14 @@
 application: knowmyoffers
-version: codenvy
+version: uat
 runtime: python27
 threadsafe: true
 api_version: 1
 
 handlers:
+- url: /Sitemap.xml
+  static_files: Sitemap.xml
+  upload: Sitemap.xml
+
 - url: /static
   static_dir: static
 

@@ -23,17 +23,24 @@ class MainHandler(webapp2.RequestHandler):
     order_by = self.request.get('order')
     stores = datamodel.Stores.all()
     stores.order('-deals_count')
+    
     offers = datamodel.Offers.all()
-    # offers.filter('expiry >=',datetime.date.today())
+    offers.filter('enabled',True)
     
     if order_by=="popular":
       offers.order("-clicks")
+      offers_desc = "All popular offers form all the stores"
     else:
       offers.order('-posted_on')
+      offers_desc = "All active offers form all the stores"
     offers.fetch(20)
+    top_stores=[]
+    for store in stores:
+      top_stores.append(store)
+    stores = top_stores
     template_values = {
-        'name': "Mahesh",'offers':offers,'stores':stores
-      }
+        'name': "Mahesh",'offers_desc':offers_desc,'offers':offers,'stores':stores,'top_stores':stores[0:5]
+    }
     self.response.out.write(template.render(path, template_values))
     
 class SearchHandler(webapp2.RequestHandler):
@@ -43,14 +50,17 @@ class SearchHandler(webapp2.RequestHandler):
       stores = db.GqlQuery("SELECT * FROM Stores ORDER BY deals_count desc")
       where_clause = ""
       coupon_is_there = False
+      found = False
       if(query):
         for key in ["coupons","coupon"]:
           if key in query:
             where_clause = "WHERE offer_type='Coupon'"
             coupon_is_there = True
             query=query.replace(key,"")
+            found=True;
         for key in ["deals","deal"]:
           if key in query:
+            found=True;
             query=query.replace(key,"")
             where_clause = "WHERE offer_type='Deal'"
             if(coupon_is_there):
@@ -58,6 +68,7 @@ class SearchHandler(webapp2.RequestHandler):
         for store in stores:
           key = store.store.lower()
           if key in query:
+            found=True;
             query=query.replace(key,"")
             if where_clause!="":
               where_clause = where_clause + "and store='{0}'".format(store.store)
@@ -69,24 +80,35 @@ class SearchHandler(webapp2.RequestHandler):
       for offer in offers:
         offers_list.append(offer)
       # sorted(offers_list,key=lambda k: k['posted_on'])
-      self.response.write(offers_list[0])
+      # self.response.write(offers_list[0])
       offers = offers_list
       data_query =[]
       if(query):
         query = ' '.join(query.split())
         for row in offers:
             if query in row.title.lower():
+              found=True;
               data_query.append(row)
               offers = data_query
             elif query in row.description.lower():
+              found=True;
               data_query.append(row)
               offers = data_query
+      if found:
+        offers_desc = "All available offers for your query"
+      else:
+        offers_desc = "Oops no results for your query"
+        offers=[]
       today = datetime.date.today()
-      offers_desc = "All available offers for your query"
+      # offers_desc = "All available offers for your query"
       # stores.append(db_stores)  # offers_list = [] # for offer in offers: #   offers_list.append(datetime.datetime.now() - offer.posted_on) # offers[offers.key].
+      top_stores=[]
+      for store in stores:
+        top_stores.append(store)
+      stores = top_stores
       template_values = {
-        'name': "Mahesh",'offers_desc':offers_desc,'offers':offers,'stores':stores,'today':today
-      }# removed text: ,'offers_list':offers_list
+          'name': "Mahesh",'offers_desc':offers_desc,'offers':offers,'stores':stores,'top_stores':stores[0:5]
+      }
       self.response.out.write(template.render(path, template_values))
     except Exception as exc:
         self.response.write("Exception:  ")
@@ -164,7 +186,6 @@ class Contactus(webapp2.RequestHandler):
             if user:
                 user_email=user.email()
                 # self.response.write("1st your Query is successfully submitted"+name+":"+email+":"+description)
-            
             email=self.request.get("contactus_email")
             new_data=datamodel.ContactUs(email=email,author=user_email,name=name,description=description)
             new_data.put()
@@ -177,10 +198,7 @@ class Contactus(webapp2.RequestHandler):
             logging.error(e)
             logging.error("At line number")
             logging.error(sys.exc_traceback.tb_lineno)
-
             # self.redirect("/")
-
-            
 
 app = webapp2.WSGIApplication([
   ('/', MainHandler),('/search', SearchHandler),('/signin',Signin),('/contactus',Contactus),('/upload_photo', PhotoUploadHandler),('/view_photo/([^/]+)?',PhotoServeHandler)
