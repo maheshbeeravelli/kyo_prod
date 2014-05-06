@@ -153,12 +153,12 @@ DIV.custom_nav UL LI:hover a {
   height:50px;
 }
 .widget-item img,.widget-item-small img{
-  width:100%;
+  width:99%;
   height:100%;
 }
 .store-inner{
   text-align: center;
-  border: 2px solid #eee;
+  border: 1px solid rgb(200,200,200);
   -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
  	-moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
   box-shadow:2px 2px 4px rgba(0, 0, 0, 0.15);
@@ -167,6 +167,9 @@ DIV.custom_nav UL LI:hover a {
    -webkit-box-shadow: 10px 10px 6px -6px rgba(0, 0, 0, 0.25);
  	-moz-box-shadow: 10px 10px 6px -6px rgba(0, 0, 0, 0.25);
  	box-shadow: 10px 10px 6px -6px rgba(0, 0, 0, 0.25);
+}
+.store-inner:hover a{
+  text-decoration:none;
 }
 .nav-sidebar li a:hover{
   background-color:#fff;
@@ -185,11 +188,12 @@ DIV.custom_nav UL LI:hover a {
 }
 
 .item,.store-item{
-  padding-left:0;
   color: #476380;
   margin-bottom: 15px;
 }
-
+.item{
+  padding-left:0;
+}
 .item-inner{
   border-left: 6px solid rgb(52,173,186);
   padding: 3px 2px 5px 2px;

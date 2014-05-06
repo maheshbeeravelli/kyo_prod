@@ -17,13 +17,17 @@ from google.appengine.api import users
 path = os.path.join(os.path.dirname(__file__), 'index.html')
 stores_template = os.path.join(os.path.dirname(__file__), 'stores.html') 
 
-offers = []
+offers_cache = []
 class OfferPage(webapp2.RequestHandler):
     def get(self):
       try:
         key=self.request.get('key')
-        if offers_cache.len()==0:
-          offers = datamodel.Offers.get(key)
+        if len(offers_cache)==0:
+          offers = datamodel.Offers.all()
+          self.response.write("Importing data to cahce")
+        else:
+          num=len(offers_cahce)
+          self.response.write("Cache is already there. Length ="+ num)
         if key:
           self.response.out.headers['Content-Type']='text/json'
           offer = offers[0]

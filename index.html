@@ -125,7 +125,6 @@
   			   <div class="item-inner">
     			   <div class="item-header">
     			   {%for store in stores%}
-    			   <!--{{store.store}}-->
     			   {% if store.store == offer.store%}
     			   	<img src="/view_photo/{{store.blob_key.key}}" alt="A bird on a fence" />
     			   {% endif %}
@@ -228,8 +227,7 @@
           <div class="row">
         		<div class="col-md-4">
         		    <p style="text-align: left;">Copyright © Know Your Offers</p>
-            </div>
-            <div id="fb-root"></div>
+        		    <div id="fb-root"></div>
             <script>(function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
@@ -238,6 +236,8 @@
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));</script>
           </div>
+            </div>
+            
       	</div>
     </div>
   </div><!--/bodywrap-->

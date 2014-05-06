@@ -128,20 +128,6 @@
 		            {% endfor %}
 		          </ul>
         </div><!--End of List Group -->
-        <div class="list-group">
-		          <ul class="nav nav-sidebar">
-		            <li class="list-group-item-info sidebar-header">Top Stores</li>
-		            {%for store in top_stores%}
-		            <li><a href="/store?store={{store.store}}">
-  		            <div class="widget-item">
-      			   	      <img src="/view_photo/{{store.blob_key.key}}" alt="{{store.store}}" />
-      			      </div>
-      			      Deals  {{store.deals_count}}   : Coupons  {{store.coupons_count}}
-		            </a>
-		            </li>
-		            {% endfor %}
-		          </ul>
-		    </div>
 			</div><!-- end of side bar nav-->
 		</div><!--/thirds-->
 	</div>
